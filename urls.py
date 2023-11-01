@@ -1,31 +1,31 @@
-from django.urls import path
-from django.conf import settings
-from django.conf.urls.static import static
+"""
+URL configuration for iot_project project.
 
+The `urlpatterns` list routes URLs to views. For more information please see:
+    https://docs.djangoproject.com/en/4.2/topics/http/urls/
+Examples:
+Function views
+    1. Add an import:  from my_app import views
+    2. Add a URL to urlpatterns:  path('', views.home, name='home')
+Class-based views
+    1. Add an import:  from other_app.views import Home
+    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
+Including another URLconf
+    1. Import the include() function: from django.urls import include, path
+    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
+"""
+from django.contrib import admin
+from django.urls import path, include
+from devices import views
+from django.views.generic import TemplateView
 
-
-from .views import (
-    DeviceCreateView,
-    DeviceDeleteView,
-    DeviceRetrieveView,
-    DeviceListView,
-    DeviceReadingsView,
-   
-)
 
 urlpatterns = [
-    path('api/devices/', DeviceCreateView.as_view(), name='device-create'),
-    path('api/devices/<str:uid>/', DeviceDeleteView.as_view(), name='device-delete'),
-    path('api/devices/<str:uid>/', DeviceRetrieveView.as_view(), name='device-retrieve'),
-    path('api/devices/', DeviceListView.as_view(), name='device-list'),
-    path(
-        'api/devices/<str:device_uid>/readings/<str:parameter>/',
-        DeviceReadingsView.as_view(),
-        name='device-readings',
-    )
+    path('', include('devices.urls')),
+    path('admin/', admin.site.urls),
+    path('devices-graph/<str:device_uid>/', views.device_graph_view, name='device_graph'),
+    path('', TemplateView.as_view(template_name='device_graph.html'), name='device_graph'),
+    path('',TemplateView.as_view(template_name='index.html'), name='index'),
+    
+    
 ]
-
-if settings.DEBUG:
-    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-
- 
