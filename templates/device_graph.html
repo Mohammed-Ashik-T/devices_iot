@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>IoT Device Data Visualization</title>
+    <!-- Add any necessary CSS or Chart.js CDN links here -->
+</head>
+<body>
+    <header>
+        <h1>IoT Device Data Visualization</h1>
+    </header>
+    <container>
+        <form id="data-form">
+            <label for="device-uid">Device UID:</label>
+            <input type="text" id="device-uid" placeholder="Enter Device UID">
+            <label for="parameter">Parameter (temperature/humidity):</label>
+            <input type="text" id="parameter" placeholder="Enter Parameter">
+            <label for="start-on">Start Date and Time:</label>
+            <input type="text" id="start-on" placeholder="YYYY-MM-DDTHH:MM:SS">
+            <label for="end-on">End Date and Time:</label>
+            <input type="text" id="end-on" placeholder="YYYY-MM-DDTHH:MM:SS">
+            <button type="button" id="fetch-data">Fetch Data</button>
+        </form>
+        <div id="chart-container">
+            <canvas id="chart"></canvas>
+        </div>
+    </container>
+
+    <script>
+        document.getElementById('fetch-data').addEventListener('click', function () {
+            const deviceUid = document.getElementById('device-uid').value;
+            const parameter = document.getElementById('parameter').value;
+            const startOn = document.getElementById('start-on').value;
+            const endOn = document.getElementById('end-on').value;
+            const apiUrl = `http://example.com/api/devices/${deviceUid}/readings/${parameter}/?start_on=${startOn}&end_on=${endOn}`;
+
+            fetch(apiUrl)
+                .then(response => response.json())
+                .then(data => {
+                    // Process the data and create a Chart.js chart here
+                    // For this example, we'll assume data is an array of objects with timestamps and values
+                    const timestamps = data.map(item => item.timestamp);
+                    const values = data.map(item => item.value);
+
+                    const ctx = document.getElementById('chart').getContext('2d');
+                    new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels: timestamps,
+                            datasets: [{
+                                label: 'Data',
+                                data: values,
+                                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                                borderColor: 'rgba(75, 192, 192, 1)',
+                                borderWidth: 1,
+                                fill: true,
+                            }],
+                        },
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                });
+        });
+    </script>
+</body>
+</html>

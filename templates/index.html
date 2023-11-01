@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IOT Device Management</title>
+</head>
+<body>
+    <h1>Welcome to IOT Device Management</h1>
+
+    <h2>API Endpoints:</h2>
+    <ul>
+        <li>
+            <strong>Create a Device:</strong>
+            <pre>POST /api/devices/</pre>
+            <p>Send a JSON payload with 'uid' and 'name' to create a new device.</p>
+        </li>
+        <li>
+            <strong>Delete a Device:</strong>
+            <pre>DELETE /api/devices/{device-uid}</pre>
+            <p>Replace '{device-uid}' with the UID of the device you want to delete.</p>
+        </li>
+        <li>
+            <strong>Retrieve a Device:</strong>
+            <pre>GET /api/devices/{device-uid}</pre>
+            <p>Replace '{device-uid}' with the UID of the device you want to retrieve.</p>
+        </li>
+        <li>
+            <strong>List all Devices:</strong>
+            <pre>GET /api/devices/</pre>
+            <p>Retrieve a JSON list of all devices.</p>
+        </li>
+        <li>
+            <strong>Get Readings for a Device:</strong>
+            <pre>GET /api/devices/{device-uid}/readings/{parameter}/?start_on=yyyy-mm-ddTHH:MM:SS&end_on=yyyy-mm-ddTHH:MM:SS</pre>
+            <p>Replace '{device-uid}' with the UID of the device, '{parameter}' with 'temperature' or 'humidity', and provide 'start_on' and 'end_on' query parameters for date filtering.</p>
+        </li>
+    </ul>
+
+    <h2>Graph Visualization:</h2>
+    <p>Create a graph visualization for a device's temperature and humidity data:</p>
+    <form action="/devices-graph/" method="get">
+        <label for="device_uid">Device UID:</label>
+        <input type="text" id="device_uid" name="device_uid" placeholder="Enter Device UID" required>
+        <button type="submit">Generate Graph</button>
+    </form>
+
+    <footer>
+        <p>&copy; 2023 Your Company Name</p>
+    </footer>
+</body>
+</html>
